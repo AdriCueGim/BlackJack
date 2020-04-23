@@ -63,7 +63,17 @@ namespace BlackJack
             if (cartas.Length == 0)
                 throw new Exception("No hay cartas en el mazo.");
             Cartas.CopyTo(cartas, 0);
-            // Método incompleto.
+            Carta aux;
+            Random semilla = new Random();
+            int posicionAleatoria;
+            for (int i = 0; i < cartas.Length; i++)
+            {
+                posicionAleatoria = semilla.Next(0, cartas.Length);
+                aux = cartas[i];
+                cartas[i] = cartas[posicionAleatoria];
+                cartas[posicionAleatoria] = aux;
+            }
+            Cartas = new LinkedList<Carta>(cartas);
         }
 
         public IEnumerator<Carta> GetEnumerator()

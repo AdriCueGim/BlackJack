@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace BlackJack
 {
-    public class VistaConsola : IVista
+    /*public class VistaConsola : IVista
     {
         private int Filas { get => 24; }
         private int Columnas { get => 80; }
@@ -234,5 +234,5 @@ namespace BlackJack
             Thread.Sleep(duracion_sg * 1000);
             ConsoleE.Borra(x, y, accion.Length);
         }
-    }
+    }*/
 }

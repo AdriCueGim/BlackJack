@@ -58,11 +58,11 @@ namespace BlackJack.Tests
         [MaxTime(2000)]
         public void MeclaTest()
         {
-            _mazo.Mecla();
+            _mazo.Mezcla();
             _mazo.AñadeBaraja();
-            _mazo.Mecla();
+            _mazo.Mezcla();
             _mazo.AñadeBaraja();
-            _mazo.Mecla();
+            _mazo.Mezcla();
             Assert.AreEqual(104, _mazo.NumeroCartas);
         }
     }

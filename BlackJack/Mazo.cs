@@ -60,8 +60,6 @@ namespace BlackJack
         public void Mezcla()
         {
             Carta[] cartas = new Carta[Cartas.Count];
-            if (cartas.Length == 0)
-                throw new Exception("No hay cartas en el mazo.");
             Cartas.CopyTo(cartas, 0);
             Carta aux;
             Random semilla = new Random();

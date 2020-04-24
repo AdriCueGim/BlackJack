@@ -23,6 +23,12 @@ namespace BlackJack
             Console.WriteLine(mazo);
             mazo.Mezcla();
             Console.WriteLine(mazo);
+
+            Console.WriteLine("\nPrueba foreach:");
+            foreach (Carta carta in mazo)
+            {
+                Console.Write(carta + " ");
+            }
         }
     }
 }

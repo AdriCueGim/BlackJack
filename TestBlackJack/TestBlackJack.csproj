@@ -10,7 +10,6 @@
     <Compile Remove="ApostadorTests.cs" />
     <Compile Remove="CroupierTests.cs" />
     <Compile Remove="JugadorTests.cs" />
-    <Compile Remove="ManoBlackJackTests.cs" />
     <Compile Remove="MesaBlackJackTests.cs" />
   </ItemGroup>
 

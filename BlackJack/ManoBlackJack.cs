@@ -20,6 +20,64 @@ namespace BlackJack
         protected List<Carta> Cartas { get; set; }
         public bool Cerrada { get; set; }
         public abstract int PuntosParaCerrarAutomaticamente { get; }
+        public int Puntos 
+        { 
+            get
+            {
+                int puntosMano;
+                List<int> puntosPosiblesQueNoSePasan = PuntuacionesPosiblesQueNoSePasan();
+                if (puntosPosiblesQueNoSePasan.Count == 0)
+                {
+                    List<int> puntosPosibles = PuntuacionesPosibles();
+                    puntosMano = puntosPosibles[0];
+                }
+                else
+                    puntosMano = puntosPosiblesQueNoSePasan[puntosPosiblesQueNoSePasan.Count];
+                return puntosMano;
+            }
+        }
+
+        public string TextoPuntos
+        {
+            get
+            {
+                string texto = "";
+                List<int> puntosPosiblesQueNoSePasan = PuntuacionesPosiblesQueNoSePasan();
+                if (puntosPosiblesQueNoSePasan.Count == 0)
+                {
+                    List<int> puntosPosibles = PuntuacionesPosibles();
+                    texto = $"{puntosPosibles[0]}";
+                }
+                else
+                    for (int i = 0; i < puntosPosiblesQueNoSePasan.Count; i++)
+                        texto = $"{puntosPosiblesQueNoSePasan[i] + (i + 1 != puntosPosiblesQueNoSePasan.Count ? " / " : "")}";
+                return texto;
+            }
+        }
+
+        public bool BlackJack
+        {
+            get
+            {
+                return Puntos == PUNTOS_MAXIMOS_BLACK_JACK;
+            }
+        }
+
+        public bool SePasa
+        {
+            get
+            {
+                return Puntos > PUNTOS_MAXIMOS_BLACK_JACK;
+            }
+        }
+
+        public bool SePuedeRecibirCarta
+        {
+            get
+            {
+                return !Cerrada && Puntos < PuntosParaCerrarAutomaticamente;
+            }
+        }
 
         public ManoBlackJack()
         {
@@ -120,6 +178,44 @@ namespace BlackJack
             }
             puntuacionesPosibles.Sort();
             return puntuacionesPosibles;
+        }
+        
+        private List<int> PuntuacionesPosiblesQueNoSePasan()
+        {
+            List<int> puntuacionesPosibles = PuntuacionesPosibles();
+            for (int i = 0; i < puntuacionesPosibles.Count; i++)
+                if (puntuacionesPosibles[i] > PUNTOS_MAXIMOS_BLACK_JACK)
+                    puntuacionesPosibles.Remove(puntuacionesPosibles[i]);
+            return puntuacionesPosibles;
+        }
+
+        public void Cierra()
+        {
+            if (Cerrada)
+                throw new Excepcion("La mano ya estaba cerrada.");
+            Cerrada = true;
+        }
+
+        public void AñadeCarta(Carta carta)
+        {
+            if (Cerrada)
+                throw new Excepcion("No se pueden añadir cartas, la mano estaba cerrada.");
+            Cartas.Add(carta);
+            if (Puntos > PuntosParaCerrarAutomaticamente)
+                Cierra();
+        }
+
+        public override string ToString()
+        {
+            string salida = $"Cerrada: {(Cerrada ? "Si": "No")}\n" +
+                   $"Puntos: {TextoPuntos} | {Puntos}\n" +
+                   $"Se pasa: {(SePasa ? "Si" : "No")}\n" +
+                   $"Black Jack: {(BlackJack ? "Si" : "No")}\n" +
+                   $"Se puede recibir carta: {(SePuedeRecibirCarta ? "Si" : "No")}";
+            salida += "\nLista de cartas:";
+            for (int i = 0; i < Cartas.Count; i++)
+                salida += $"{Cartas[i]}";
+            return salida;
         }
     }
 }

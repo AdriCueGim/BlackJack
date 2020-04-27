@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace BlackJack
 {
-    public abstract class ManoBlackJack
+    public abstract class ManoBlackJack : IEnumerable<Carta>, IComparable<ManoBlackJack>
     {
         public class Excepcion : Exception
         {
@@ -205,6 +207,15 @@ namespace BlackJack
                 Cierra();
         }
 
+        public List<Carta> Retira()
+        {
+            if (!Cerrada)
+                throw new Excepcion("No se puede retirar si la mano no está cerrada.");
+            List<Carta> mano = new List<Carta>(Cartas);
+            Cartas = null;
+            return mano;
+        }
+
         public override string ToString()
         {
             string salida = $"Cerrada: {(Cerrada ? "Si": "No")}\n" +
@@ -216,6 +227,31 @@ namespace BlackJack
             for (int i = 0; i < Cartas.Count; i++)
                 salida += $"{Cartas[i]}";
             return salida;
+        }
+
+        public IEnumerator<Carta> GetEnumerator()
+        {
+            return Cartas.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Cartas.GetEnumerator();
+        }
+
+        public virtual int CompareTo(ManoBlackJack manoContrincante)
+        {
+            if (!Cerrada)
+                throw new Excepcion("No se pueden comparar una mano que no está cerrada");
+            int ganador = Puntos - manoContrincante.Puntos;
+            if (ganador == 0 && !SePasa && !manoContrincante.SePasa)
+            {
+                if (BlackJack && !manoContrincante.BlackJack)
+                    ganador = 1;
+                else if (!BlackJack && manoContrincante.BlackJack)
+                    ganador = -1;
+            }
+            return ganador;
         }
     }
 }

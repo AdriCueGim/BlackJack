@@ -245,12 +245,10 @@ namespace BlackJack
                 throw new Excepcion("No se pueden comparar una mano que no está cerrada");
             int ganador = Puntos - manoContrincante.Puntos;
             if (ganador == 0 && !SePasa && !manoContrincante.SePasa)
-            {
                 if (BlackJack && !manoContrincante.BlackJack)
                     ganador = 1;
                 else if (!BlackJack && manoContrincante.BlackJack)
                     ganador = -1;
-            }
             return ganador;
         }
     }

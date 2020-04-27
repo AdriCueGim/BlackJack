@@ -1,5 +1,4 @@
 ﻿using System;
-using static BlackJack.Carta;
 
 namespace BlackJack
 {
@@ -18,17 +17,15 @@ namespace BlackJack
             //    vista.MuestraMensaje(e.Message);
             //    Environment.Exit(-1);
             //}
-            Mazo mazo = new Mazo();
-            mazo.AñadeBaraja();
-            Console.WriteLine(mazo);
-            mazo.Mezcla();
-            Console.WriteLine(mazo);
-
-            Console.WriteLine("\nPrueba foreach:");
-            foreach (Carta carta in mazo)
-            {
-                Console.Write(carta + " ");
-            }
+            ManoCroupier croupier = new ManoCroupier();
+            ManoApostador jugador1 = new ManoApostador(100);
+            ManoApostador jugador2 = new ManoApostador(100);
+            Console.WriteLine(jugador1.Puntos);
+            jugador1.AñadeCarta(new Carta(Carta.Valor.Siete, Carta.Palo.Treboles));
+            jugador1.AñadeCarta(new Carta(Carta.Valor.Siete, Carta.Palo.Picas));
+            jugador1.AñadeCarta(new Carta(Carta.Valor.Siete, Carta.Palo.Diamantes));
+            jugador2.AñadeCarta(new Carta(Carta.Valor.As, Carta.Palo.Corazones));
+            jugador2.AñadeCarta(new Carta(Carta.Valor.Rey, Carta.Palo.Picas));
         }
     }
 }

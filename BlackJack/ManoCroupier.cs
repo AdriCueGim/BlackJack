@@ -21,6 +21,8 @@ namespace BlackJack
             int ganador = Puntos - manoContrincante.Puntos;
             if (SePasa && !manoContrincante.SePasa)
                 ganador = -1;
+            else if (SePasa && manoContrincante.SePasa)
+                ganador = 1;
             else if (ganador == 0 && !SePasa && !manoContrincante.SePasa)
                 if (BlackJack && !manoContrincante.BlackJack)
                     ganador = 1;

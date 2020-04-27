@@ -31,10 +31,13 @@ namespace BlackJack
                 if (puntosPosiblesQueNoSePasan.Count == 0)
                 {
                     List<int> puntosPosibles = PuntuacionesPosibles();
-                    puntosMano = puntosPosibles[0];
+                    if (puntosPosibles.Count == 0)
+                        puntosMano = 0;
+                    else
+                        puntosMano = puntosPosibles[0];
                 }
                 else
-                    puntosMano = puntosPosiblesQueNoSePasan[puntosPosiblesQueNoSePasan.Count];
+                    puntosMano = puntosPosiblesQueNoSePasan[puntosPosiblesQueNoSePasan.Count - 1];
                 return puntosMano;
             }
         }
@@ -48,11 +51,17 @@ namespace BlackJack
                 if (puntosPosiblesQueNoSePasan.Count == 0)
                 {
                     List<int> puntosPosibles = PuntuacionesPosibles();
-                    texto = $"{puntosPosibles[0]}";
+                    if (puntosPosibles.Count == 0)
+                        texto = "0";
+                    else
+                        texto = $"{puntosPosibles[0]}";
                 }
                 else
-                    for (int i = 0; i < puntosPosiblesQueNoSePasan.Count; i++)
-                        texto = $"{puntosPosiblesQueNoSePasan[i] + (i + 1 != puntosPosiblesQueNoSePasan.Count ? " / " : "")}";
+                    if (puntosPosiblesQueNoSePasan[puntosPosiblesQueNoSePasan.Count - 1] == 21)
+                        texto = "21";
+                    else
+                        for (int i = 0; i < puntosPosiblesQueNoSePasan.Count; i++)
+                            texto += $"{puntosPosiblesQueNoSePasan[i] + (i + 1 != puntosPosiblesQueNoSePasan.Count ? "/" : "")}";
                 return texto;
             }
         }
@@ -61,7 +70,7 @@ namespace BlackJack
         {
             get
             {
-                return Puntos == PUNTOS_MAXIMOS_BLACK_JACK;
+                return Puntos == PUNTOS_MAXIMOS_BLACK_JACK && Cartas.Count == 2;
             }
         }
 
@@ -99,25 +108,25 @@ namespace BlackJack
                     valorCarta = 2;
                     break;
                 case Carta.Valor.Tres:
-                    valorCarta = 2;
+                    valorCarta = 3;
                     break;
                 case Carta.Valor.Cuatro:
-                    valorCarta = 2;
+                    valorCarta = 4;
                     break;
                 case Carta.Valor.Cinco:
-                    valorCarta = 2;
+                    valorCarta = 5;
                     break;
                 case Carta.Valor.Seis:
-                    valorCarta = 2;
+                    valorCarta = 6;
                     break;
                 case Carta.Valor.Siete:
-                    valorCarta = 2;
+                    valorCarta = 7;
                     break;
                 case Carta.Valor.Ocho:
-                    valorCarta = 2;
+                    valorCarta = 8;
                     break;
                 case Carta.Valor.Nueve:
-                    valorCarta = 2;
+                    valorCarta = 9;
                     break;
                 case Carta.Valor.Diez:
                 case Carta.Valor.Jota:
@@ -203,7 +212,7 @@ namespace BlackJack
             if (Cerrada)
                 throw new Excepcion("No se pueden añadir cartas, la mano estaba cerrada.");
             Cartas.Add(carta);
-            if (Puntos > PuntosParaCerrarAutomaticamente)
+            if (Puntos >= PuntosParaCerrarAutomaticamente)
                 Cierra();
         }
 

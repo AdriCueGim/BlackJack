@@ -22,7 +22,7 @@ namespace BlackJack
 
         public void AñadeBaraja()
         {
-            Palo palo = (Palo)Enum.Parse(typeof(Palo), "Corazones");
+            Palo palo = Palo.Corazones;
             Valor valor = 0;
             for (int i = 0; i < 4; i++, palo += 1)
             {

@@ -39,11 +39,11 @@ namespace BlackJack.Tests
 
         [Test()]
         [MaxTime(2000)]
-        public void AñadeBajajasAlMazoRepartoTest()
+        public void AñadeBarajasAlMazoRepartoTest()
         {
-            Assert.Throws<Jugador.Excepcion>(() => _c1.AñadeBajajasAlMazoReparto());
-            Assert.Throws<Jugador.Excepcion>(() => _c2.AñadeBajajasAlMazoReparto());
-            _c0.AñadeBajajasAlMazoReparto();
+            Assert.Throws<Jugador.Excepcion>(() => _c1.AñadeBarajasAlMazoReparto());
+            Assert.Throws<Jugador.Excepcion>(() => _c2.AñadeBarajasAlMazoReparto());
+            _c0.AñadeBarajasAlMazoReparto();
         }
 
         [Test()]
@@ -54,7 +54,7 @@ namespace BlackJack.Tests
             Assert.Throws<Jugador.Excepcion>(() => _c2.MezclaMazoReparto());
 
             Assert.Throws<Jugador.Excepcion>(() => _c0.MezclaMazoReparto());
-            _c0.AñadeBajajasAlMazoReparto();
+            _c0.AñadeBarajasAlMazoReparto();
             _c0.MezclaMazoReparto();
         }
 
@@ -64,7 +64,7 @@ namespace BlackJack.Tests
             Assert.Throws<System.Exception>(() => _c0.ReparteCarta(_a1));
             Assert.Throws<System.Exception>(() => _c0.ReparteCarta(_c1));
 
-            _c0.AñadeBajajasAlMazoReparto();
+            _c0.AñadeBarajasAlMazoReparto();
 
             _c0.ReparteCarta(_a1);
             Assert.Throws<Jugador.Excepcion>(() => _c0.ReparteCarta(_a0));

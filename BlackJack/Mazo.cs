@@ -39,6 +39,8 @@ namespace BlackJack
 
         public Carta ExtraePrimera()
         {
+            if (NumeroCartas < 1)
+                throw new Exception("No hay cartas que extraer.");
             Carta primera = Cartas.First.Value;
             Cartas.RemoveFirst();
             return primera;

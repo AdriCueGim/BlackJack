@@ -33,7 +33,7 @@ namespace BlackJack
         {
             get
             {
-                return MazoReparto.NumeroCartas;
+                return MazoRetirada.NumeroCartas;
             }
         }
         public override bool PuedePedirCarta
@@ -60,11 +60,12 @@ namespace BlackJack
 
         public void MezclaMazoReparto()
         {
-            if (ManoIniciada && CartasEnReparto == 52 * NumeroBarajas)
+            if (ManoIniciada || CartasEnReparto != 52 * NumeroBarajas)
+                throw new Excepcion("La mano se ha iniciado y el mazo de reparto no está completo.");
                 MazoReparto.Mezcla();
         }
 
-        public void AñadeBarajasAlMazoReparto()
+        public void AñadeBajajasAlMazoReparto()
         {
             if (ManoIniciada || MazosInicializados)
                 throw new Excepcion("No se pueden añadir barajas porque la mano o los mazos ya se han inicializado.");
@@ -80,7 +81,8 @@ namespace BlackJack
 
         public void ReparteCarta(Jugador j)
         {
-            j.RecibeCarta(MazoReparto.ExtraePrimera());
+            Carta carta = MazoReparto.ExtraePrimera();
+            j.RecibeCarta(carta);
         }
 
         public void RetiraMano(Jugador j)
@@ -94,6 +96,8 @@ namespace BlackJack
         {
             if (!ManoIniciada || !a.ManoIniciada)
                 throw new Excepcion("Alguna de las manos no ha sido iniciada");
+            if (!a.Mano.Cerrada)
+                throw new Excepcion("La mano del apostador no ha sido cerrada.");
 
             int ganador = _ManoCroupier.CompareTo(a.Mano);
             if (ganador > 0)

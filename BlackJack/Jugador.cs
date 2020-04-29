@@ -50,9 +50,7 @@ namespace BlackJack
         {
             if (!ManoIniciada)
                 throw new Excepcion("La mano no está iniciada, no se puede finalizar mano.");
-            if (Mano.Cerrada)
-                throw new Excepcion("La mano no está cerrada, no se puede finalizar.");
-            List<Carta> mano = new List<Carta>(Mano);
+            List<Carta> mano = Mano.Retira();
             Mano = null;
             return mano;
         }

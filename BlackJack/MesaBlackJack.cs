@@ -66,7 +66,7 @@ namespace BlackJack
         {
             bool esta = false;
             for (int i = 0; i < NumeroApostadores && !esta; i++)
-                esta = apostador.Nombre == Apostadores[i].Nombre;
+                esta = apostador == Apostadores[i];
             return esta;
         }
 

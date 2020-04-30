@@ -16,7 +16,7 @@ namespace BlackJack
             }
         }
 
-        public Croupier _Croupier { get; }
+        public Croupier Croupier { get; }
         private List<Apostador> Apostadores { get; }
         public int MinimoJugadores
         {
@@ -58,7 +58,7 @@ namespace BlackJack
 
         public MesaBlackJack()
         {
-            _Croupier = new Croupier();
+            Croupier = new Croupier();
             Apostadores = new List<Apostador>();
         }
 

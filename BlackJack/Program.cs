@@ -6,17 +6,17 @@ namespace BlackJack
     {
         static void Main()
         {
-            //var vista = new VistaTest();
-            //try
-            //{
-            //    Controlador controlador = new Controlador(new MesaBlackJack(), vista);
-            //    controlador.EmpiezaJuego();
-            //}
-            //catch (Exception e)
-            //{
-            //    vista.MuestraMensaje(e.Message);
-            //    Environment.Exit(-1);
-            //}
+            var vista = new VistaTest();
+            try
+            {
+                Controlador controlador = new Controlador(new MesaBlackJack(), vista);
+                controlador.EmpiezaJuego();
+            }
+            catch (Exception e)
+            {
+                vista.MuestraMensaje(e.Message);
+                Environment.Exit(-1);
+            }
         }
     }
 }

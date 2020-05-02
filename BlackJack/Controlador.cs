@@ -21,14 +21,21 @@ namespace BlackJack
             {
                 Mesa.Croupier.ReparteCarta(Mesa[i]);
                 Vista.MuestraMesa(Mesa);
+                Vista.MuestraAccionCroupier("Repartiendo...", 1);
             }
+        }
+
+        private void InicializaManos()
+        {
+            for (int i = 0; i < Mesa.NumeroApostadores; i++)
+                Mesa[i].IniciaMano(Vista.PideApuesta(Mesa[i]));
+            Mesa.Croupier.IniciaMano();
         }
 
         private void ReparteCartasIniciales()
         {
             Vista.MuestraMesa(Mesa);
             ReparteUnaCartaApostadores();
-            Mesa.Croupier.IniciaMano();
             Mesa.Croupier.RecibeCarta(Mesa.Croupier.MazoReparto.ExtraePrimera());
             Vista.MuestraMesa(Mesa);
             ReparteUnaCartaApostadores();
@@ -43,14 +50,19 @@ namespace BlackJack
                 Vista.MuestraAccionCroupier("Inicializando mazo de reparto...", 2);
                 Mesa.Croupier.MezclaMazoReparto();
                 Vista.MuestraAccionCroupier("Mezclando...", 1);
+                Vista.MuestraMesa(Mesa);
             }
-            else if (Mesa.Croupier.CartasEnReparto <= Mesa.MinimoCartasParaNuevaMano)
+            else
             {
-                Mesa.Croupier.ReiniciaMazoRepartoConCartasRetiradas();
+                if (Mesa.Croupier.CartasEnReparto <= Mesa.MinimoCartasParaNuevaMano)
+                {
+                    Mesa.Croupier.ReiniciaMazoRepartoConCartasRetiradas();
+                    Mesa.Croupier.MezclaMazoReparto();
+                }
                 Vista.MuestraAccionCroupier("Recuperando mazo de reparto...", 2);
-                Mesa.Croupier.MezclaMazoReparto();
                 Vista.MuestraAccionCroupier("Mezclando...", 1);
             }
+            InicializaManos();
             Vista.MuestraMesa(Mesa);
         }
 
@@ -65,6 +77,7 @@ namespace BlackJack
 
         private bool FinalizaMano()
         {
+            bool finalizarJuego = false;
             ManoBlackJack manoCroupier, manoApostador;
             Vista.MuestraMesa(Mesa);
             for (int i = 0; i < Mesa.NumeroApostadores; i++)
@@ -80,11 +93,17 @@ namespace BlackJack
                                                 i);
                 Mesa.Croupier.RetiraMano(Mesa[i]);
             }
+            Vista.MuestraAccionCroupier("Repartiendo fichas...", 1);
+            Mesa.Croupier.RetiraMano(Mesa.Croupier);
             Vista.MuestraMesa(Mesa);
             LevantaJugadoresSinSaldo();
+            Vista.MuestraAccionCroupier("Retirando jugadores sin saldo...", 1);
             Vista.MuestraMesa(Mesa);
-
-            return Mesa.NumeroApostadores == 0;
+            if (Mesa.NumeroApostadores != 0)
+                finalizarJuego = !Vista.SeReparteOtraMano();
+            else if (Mesa.NumeroApostadores == 0)
+                finalizarJuego = true;
+            return finalizarJuego;
         }
 
         private void SientaApostadores()
@@ -115,6 +134,7 @@ namespace BlackJack
                     break;
                 case Apostador.Accion.Doblarse:
                     a.Doblarse();
+                    Mesa.Croupier.ReparteCarta(a);
                     break;
                 case Apostador.Accion.Carta:
                     Mesa.Croupier.ReparteCarta(a);
@@ -131,7 +151,7 @@ namespace BlackJack
             for (int i = 0; i < Mesa.NumeroApostadores; i++)
             {
                 apostador = Mesa[i];
-                if (!apostador.Mano.Cerrada)
+                while (!apostador.Mano.Cerrada)
                     RealizaAccionApostador(apostador, Vista.PideAccionMano(apostador));
                 Vista.MuestraMesa(Mesa);
             }
@@ -139,8 +159,9 @@ namespace BlackJack
 
         private void TurnoCroupier()
         {
-            if (!Mesa.Croupier.Mano.Cerrada)
+            while(!Mesa.Croupier.Mano.Cerrada)
                 Mesa.Croupier.RecibeCarta(Mesa.Croupier.MazoReparto.ExtraePrimera());
+            Vista.MuestraMesa(Mesa);
         }
 
         public void EmpiezaJuego()

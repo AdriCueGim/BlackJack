@@ -16,8 +16,8 @@ namespace BlackJack
 
         public override int CompareTo(ManoBlackJack manoContrincante)
         {
-            if (!Cerrada)
-                throw new Excepcion("No se pueden comparar una mano que no está cerrada");
+            if (!Cerrada || !manoContrincante.Cerrada)
+                throw new Excepcion("No se puede comparar una mano que no esté cerrada");
             int ganador = Puntos - manoContrincante.Puntos;
             if (SePasa && !manoContrincante.SePasa)
                 ganador = -1;
